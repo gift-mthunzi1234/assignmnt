@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="edits/navigation.css">
+    <title>Document</title>
+</head>
+<body>
+     <div class="dash">
+        <ul>
+            <li ><a href="navigation.html">Home</a></li>
+            <li id="products"><a href="products.html?user">Products</a></li>
+            <li id="new"><a href="New Products.html">New Products</a></li>
+            <li id="dash"><a href="Dashboard.html">Dashboard</a></li>
+            <li id="log"><a href="login.html">Log Out</a></li>
+        </ul>
+        <p id="message">Welcome</p>
+
+     </div>
+     <script>
+        const Par = new URLSearchParams(window.location.search);
+        const user = Par.get('user');
+    
+        const message= document.getElementById("message");
+
+if (user === 'admin') {
+    message.textContent = 'Welcome Admin';
+}
+else {
+    message.textContent = 'Welcome Standard';
+    const dash = document.getElementById('dash');
+    if (dash) dash.style.display = 'none';
+}
+    
+      </script>
+</body>
+</html>

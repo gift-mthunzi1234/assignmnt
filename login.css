@@ -1,0 +1,44 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+     background-color:aqua;
+     display: flex;
+     justify-content: center;
+}
+
+input[type=username], input[type=password] {
+    width:300px;
+    padding: 10px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid black;
+    box-sizing: border-box;
+  }
+  button {
+    background-color: blue;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 400px;
+  }
+  .content {
+    margin-top: 150px;
+    width: 400px;
+    height:200px;
+    display: flex;
+    justify-content: center;
+    padding:20px;
+    background-color: white;
+    justify-items: center;
+
+  }
+  .content>form>button{
+    width: 300px;
+  }
+  
+
+  

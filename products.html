@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Catalogue</title>
+    <link rel="stylesheet" href="edits/products.css">
+    <link rel="stylesheet" href="edits/navigation.css">
+</head>
+<body>
+    <div class="dash">
+        <ul>
+            <li><a href="navigation.html">Home</a></li>
+            <li id="product"><a href="products.html">Products</a></li>
+            <li id="new"><a href="New Products.html">New Products</a></li>
+            <li id="dash"><a href="Dashboard.html">Dashboard</a></li>
+            <li id="log"><a href="login.html">Log Out</a></li>
+        </ul>
+    </div>
+    
+    <h1>Products Catalogue</h1>
+    <div class="table">
+        <table id="productTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const products = JSON.parse(localStorage.getItem('products')) || [
+            { id: 1, name: "Dish washing liquid", category: "Household", quantity: 4, price: 1233 },
+            { id: 2, name: "Samsung S24", category: "Electronics", quantity: 3, price: 1000000 },
+            { id: 3, name: "Fanta", category: "Beverages", quantity: 39, price: 100 },
+            { id: 4, name: "Toothpaste", category: "Toiletries", quantity: 10, price: 12345 }
+        ];
+
+        localStorage.setItem('products', JSON.stringify(products));
+
+        const tableBody = document.querySelector('#productTable tbody');
+
+        function renderTable() {
+            tableBody.innerHTML = "";
+            products.forEach((product, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${product.name}</td>
+                    <td>${product.category}</td>
+                    <td>${product.quantity}</td>
+                    <td>${product.price}</td>
+                    <td>
+                        <button onclick="editProduct(${index})">Edit</button>
+                        <button onclick="deleteProduct(${index})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        function editProduct(index) {
+            const product = products[index];
+            const query = new URLSearchParams({
+                id: index,
+                name: product.name,
+                category: product.category,
+                quantity: product.quantity,
+                price: product.price
+            }).toString();
+            window.location.href = `New Products.html?${query}`;
+        }
+
+        function deleteProduct(index) {
+            if (confirm("Do you really want to delete this product?")) {
+                products.splice(index, 1);
+                localStorage.setItem('products', JSON.stringify(products));
+                renderTable();
+            }
+        }
+
+        renderTable();
+        
+    
+        const params = new URLSearchParams(window.location.search);
+        const user = params.get("user");
+        const dashLink = document.getElementById("dash");
+
+        
+        if (user === "standard") {
+            if (dashLink) {
+                dashLink.style.display = "none";  
+            }
+            
+            
+            if (window.location.pathname.includes('Dashboard.html')) {
+                alert("You do not have permission to access this page.");
+                window.location.href = "login.html";  
+            }
+
+
+            const editButtons = document.querySelectorAll('button[onclick^="editProduct"]');
+            const deleteButtons = document.querySelectorAll('button[onclick^="deleteProduct"]');
+            
+            editButtons.forEach(button => {
+                button.disabled = true;
+            });
+            deleteButtons.forEach(button => {
+                button.disabled = true;
+            });
+        }
+    </script>
+</body>
+</html>

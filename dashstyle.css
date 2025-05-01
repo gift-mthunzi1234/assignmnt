@@ -1,0 +1,14 @@
+*{
+    margin: 0;
+
+}
+body{
+    display: flex;
+    flex-direction: column;
+}
+.charts{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width:800PX;
+}

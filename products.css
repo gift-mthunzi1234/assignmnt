@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+table, th, td {
+    border: 0px solid black;
+  }
+  th, td {
+    border-left: 0px;
+    border-right: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+
+  }
+  tr:nth-child(even) {
+    background-color: lightcyan;
+  }

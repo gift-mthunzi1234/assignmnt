@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Product Form</title>
+    <link rel="stylesheet" href="edits/New Product.css">
+    <link rel="stylesheet" href="edits/navigation.css">
+</head>
+<body>
+    <div class="dash">
+        <ul>
+            <li><a href="navigation.html">Home</a></li>
+            <li id="products"><a href="products.html">Products</a></li>
+            <li id="new"><a href="New Products.html">New Products</a></li>
+            <li id="dash"><a href="Dashboard.html">Dashboard</a></li>
+            <li id="log"><a href="login.html">Log Out</a></li>
+        </ul>
+    </div>
+    
+    <div class="content">
+        <form id="productForm">
+            <label for="product">New product</label>
+            <input type="text" id="name" required>
+    
+            <label for="category">Category</label>
+            <select id="category" required>
+                <option value="Electronics">Electronics</option>
+                <option value="Beverage">Beverage</option>
+                <option value="Household">Household</option>
+                <option value="Toiletries">Toiletries</option>
+                <option value="Clothing">Clothing</option>
+                <option value="Stationery">Stationery</option>
+                <option value="Automotive">Automotive</option>
+                <option value="Hardware">Hardware</option>
+            </select>
+    
+            <label for="quantity">Quantity</label>
+            <input type="number" id="quantity" required>
+    
+            <label for="price">Price</label>
+            <input type="number" id="price" required>
+    
+            <button type="submit" id="submitBtn">Save</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const user = params.get('user');  // Get the user from URL parameters
+
+            // Get the links for Dashboard and Logout
+            const dashLink = document.getElementById('dash');
+            const logLink = document.getElementById('log');
+
+            // Hide Dashboard link for standard users
+            if (user === "standard" && dashLink) {
+                dashLink.style.display = "none";  // Hide the Dashboard link
+            }
+
+            // If the user is standard and tries to go to Dashboard, redirect them back to login
+            if (user === "standard" && window.location.pathname.includes('Dashboard.html')) {
+                alert("You do not have permission to access this page.");
+                window.location.href = "login.html";  // Redirect to login
+            }
+
+            // Handle form submission
+            const form = document.getElementById('productForm');
+            const nameInput = document.getElementById('name');
+            const categoryInput = document.getElementById('category');
+            const quantityInput = document.getElementById('quantity');
+            const priceInput = document.getElementById('price');
+            const submitBtn = document.getElementById('submitBtn');
+
+            const id = params.get('id');
+            const name = params.get('name');
+            const category = params.get('category');
+            const quantity = params.get('quantity');
+            const price = params.get('price');
+
+            // If editing an existing product, populate the form with existing data
+            if (id !== null) {
+                nameInput.value = decodeURIComponent(name);
+                categoryInput.value = category;
+                quantityInput.value = quantity;
+                priceInput.value = price;
+                submitBtn.textContent = "Update";
+            }
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                const products = JSON.parse(localStorage.getItem('products')) || [];
+
+                const updatedProduct = {
+                    name: nameInput.value,
+                    category: categoryInput.value,
+                    quantity: Number(quantityInput.value),
+                    price: Number(priceInput.value)
+                };
+
+                if (id !== null) {
+                    products[Number(id)] = updatedProduct;
+                } else {
+                    products.push(updatedProduct);
+                }
+
+                localStorage.setItem('products', JSON.stringify(products));
+                alert("Product saved successfully!");
+                window.location.href = "products.html";
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="edits/login.css">
+</head>
+<body>
+    <div class="content">
+        <form onsubmit="return submitFunction();">
+                <input id="user" type="username" id="username" name="username" placeholder="username"><br>
+                <input id="pass" type="password" id="password" name="password" placeholder="password"><br>
+                <button>login</button>
+                <br> 
+        </form>
+       
+    </div> 
+    <script>
+       function submitFunction() {
+    const username = document.getElementById("user").value.trim();
+    const password = document.getElementById("pass").value.trim();
+
+    if (!username || !password) {
+        alert('Please enter username and password.');
+        return false;
+    }
+
+    if ((username === 'admin' || username === 'standard') && password === '12345') {
+        window.location.href = navigation.html?user=${username};
+        return false;
+    }
+
+    alert('Invalid credentials.');
+    return false;
+}
+    
+    </script>
+</body>
+</html>

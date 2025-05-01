@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charts</title>
+    <link rel="stylesheet" href="edits/dashstyle.css">
+    <link rel="stylesheet" href="edits/navigation.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dash">
+        <ul>
+            <li><a href="navigation.html">Home</a></li>
+            <li id="products"><a href="products.html">Products</a></li>
+            <li id="new"><a href="New Products.html">New Products</a></li>
+            <li id="dash"><a href="Dashboard.html">Dashboard</a></li>
+            <li id="log"><a href="login.html">Log Out</a></li>
+        </ul>
+    </div>
+    
+    <h1>Product Data Charts</h1>
+    <div class="charts">
+        <div class="barchart">
+            <canvas id="barChart" style="width: 600px; max-width: 1000px"></canvas>
+        </div>
+        <div class="piechart">
+            <canvas id="pieChart" style="width: 600px; max-width: 1000px"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const products = JSON.parse(localStorage.getItem("products")) || [];
+
+        const labels = products.map(product => product.name);
+        const quantities = products.map(product => product.quantity);
+
+        
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Product Quantities",
+                    data: quantities,
+                    backgroundColor: ["blue", "orange", "red", "teal", "green", "yellow", "purple", "pink"],
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Product Quantities Bar Chart"
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        
+        const pieCtx = document.getElementById('pieChart').getContext('2d');
+        new Chart(pieCtx, {
+            type: "pie",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Product Quantities",
+                    data: quantities,
+                    backgroundColor: ["blue", "orange", "red", "teal", "green", "yellow", "purple", "pink"]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Product Quantities Pie Chart"
+                    }
+                }
+            }
+        });
+
+        
+        const params = new URLSearchParams(window.location.search);
+        const user = params.get("user");
+        const dashLink = document.getElementById("dash");
+
+        
+        if (user === "standard") {
+            if (dashLink) {
+                dashLink.style.display = "none";  
+            }
+            
+    
+            if (window.location.pathname.includes('Dashboard.html')) {
+                alert("You do not have permission to access this page.");
+                window.location.href = "login.html";  
+            }
+        }
+    </script>
+</body>
+</html>
